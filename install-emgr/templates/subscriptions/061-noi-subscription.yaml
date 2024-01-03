@@ -10,4 +10,4 @@ spec:
   installPlanApproval: Automatic
   name: noi
   source: ibm-noi-catalog
-  sourceNamespace: mapr
+  sourceNamespace: eventmgr

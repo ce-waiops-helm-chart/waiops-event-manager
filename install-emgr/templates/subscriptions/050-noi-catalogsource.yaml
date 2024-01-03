@@ -2,7 +2,7 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
   name: ibm-noi-catalog
-  namespace: mapr
+  namespace: eventmgr
   annotations:
     argocd.argoproj.io/sync-wave: "50"
 spec:

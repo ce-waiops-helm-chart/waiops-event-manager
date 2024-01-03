@@ -1,0 +1,154 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: (unknown)
+  creationTimestamp: null
+  name: noiconnectionlayers.noi.ibm.com
+spec:
+  group: noi.ibm.com
+  names:
+    kind: NOIConnectionLayer
+    listKind: NOIConnectionLayerList
+    plural: noiconnectionlayers
+    singular: noiconnectionlayer
+  scope: Namespaced
+  versions:
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: 'NOIConnectionLayer is the Schema for the noiconnectionlayers
+          API. Documentation For additional details regarding install parameters check:
+          http://ibm.biz/install_noi_ocp. License By installing this product you accept
+          the license terms http://ibm.biz/noi-167-license.'
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: NOIConnectionLayerSpec defines the desired state of NOIConnectionLayer
+            properties:
+              helmValues:
+                x-kubernetes-preserve-unknown-fields: true
+                description: Add additional helm values that aren't necessarily within
+                  the porcelain
+                type: object
+              noiReleaseName:
+                description: Provide the NOI release name to be associated with the
+                  connection layer
+                type: string
+              objectServer:
+                description: Provide the ObjectServer properties related to associated
+                  connection layer
+                properties:
+                  backupHost:
+                    description: Hostname of the backup ObjectServer.
+                    type: string
+                  backupPort:
+                    description: Port number of the backup ObjectServer.
+                    type: string
+                  collectionLayer:
+                    description: CollectionLayer contains Object Server Collection
+                      Layer properties
+                    properties:
+                      collectionBackupHost:
+                        description: Hostname of the backup Collection Layer of ObjectServer.
+                        type: string
+                      collectionBackupPort:
+                        description: Port number of the backup Collection Layer of
+                          ObjectServer.
+                        type: string
+                      collectionDeployPhase:
+                        description: This setting determines when the OMNIbus CNEA
+                          schema are deployed to the Collection Layer of on-premise
+                          ObjectServer. It can be one of none, preinstall and install.
+                        type: string
+                      collectionPrimaryHost:
+                        description: Hostname of the primary Collection Layer of ObjectServer.
+                        type: string
+                      collectionPrimaryPort:
+                        description: Port number of the primary Collection Layer of
+                          ObjectServer.
+                        type: string
+                      collectionSslRootCAName:
+                        description: This is used to specify the CN name for the CA
+                          certificate (SSL only). If using OMNIbus CA certs this can
+                          be omitted. Support for 3rd party CA certificates.
+                        type: string
+                      collectionSslVirtualPairName:
+                        description: Needed when setting up an SSL connection to an
+                          collection ObjectServer can have the name COL_V_1.
+                        type: string
+                      collectionUsername:
+                        description: Username for connecting to Collection Layer of
+                          on-premise ObjectServer.
+                        type: string
+                    type: object
+                  deployPhase:
+                    description: This setting determines when the OMNIbus CNEA schema
+                      are deployed to the on-premise ObjectServer. It can be one of
+                      none, preinstall and install.
+                    type: string
+                  primaryHost:
+                    description: Hostname of the primary ObjectServer.
+                    type: string
+                  primaryPort:
+                    description: Port number of the primary ObjectServer.
+                    type: string
+                  sslRootCAName:
+                    description: This is used to specify the CN name for the CA certificate
+                      (SSL only). If using OMNIbus CA certs this can be omitted. Support
+                      for 3rd party CA certificates.
+                    type: string
+                  sslVirtualPairName:
+                    description: Only needed when setting up an SSL connection to
+                      an aggregate ObjectServer which does not have the name AGG_V.
+                      Otherwise leave blank.
+                    type: string
+                  username:
+                    description: Username for connecting to on-premise ObjectServer.
+                    type: string
+                required:
+                - primaryHost
+                - primaryPort
+                - username
+                type: object
+            required:
+            - noiReleaseName
+            - objectServer
+            type: object
+          status:
+            description: NOIConnectionLayerStatus contains the observed state of the
+              additional aggregation pair to Cloud-Native Analytics.
+            properties:
+              managedResources:
+                description: Resources Managed By NOI
+                items:
+                  type: string
+                type: array
+              message:
+                description: Additional information provided regarding the connection
+                  layer
+                type: string
+              phase:
+                description: Current phase of the additional aggregation pair to Cloud-Native
+                  Analytics.
+                type: string
+            required:
+            - phase
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
