@@ -9,5 +9,6 @@ spec:
   channel: {{.Values.spec.eventManager.channel}}
   installPlanApproval: Automatic
   name: noi
-  source: ibm-noi-catalog
-  sourceNamespace: eventmgr
+  source: ibm-operator-catalog
+  #sourceNamespace: {{.Values.spec.eventManager.namespace}}
+  sourceNamespace: openshift-marketplace
