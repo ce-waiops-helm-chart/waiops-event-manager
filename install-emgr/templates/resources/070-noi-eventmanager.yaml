@@ -33,7 +33,45 @@ spec:
     serverType: CUSTOM
     storageClass: {{.Values.spec.storageClass}}
   backupRestore:
-    enableAnalyticsBackups: false
+    enableAnalyticsBackups: false 
+  postgresql:
+    backups:
+      data:
+        compression: gzip
+        encryption: default
+        jobs: 1
+      endpointCA: {}
+      onetimeBackup: {}
+      retentionPolicy: 12m
+      s3Credentials:
+        keyNameAccessKeyID: AWS_ACCESS_KEY_ID
+        keyNameAccessSecretKey: AWS_SECRET_ACCESS_KEY
+        secretName: ceph-bucket
+      scheduledBackup:
+        backupOwnerReference: none
+        immediate: true
+        schedule: 0 0 0 * * *
+      wal:
+        compression: gzip
+        encryption: default
+        walMaxParallel: 1
+    bootstrap:
+      s3Credentials:
+        keyNameAccessKeyID: AWS_ACCESS_KEY_ID
+        keyNameAccessSecretKey: AWS_SECRET_ACCESS_KEY
+        secretName: ceph-bucket
+      wal:
+        compression: gzip
+        encryption: default
+        walMaxParallel: 1
+    edbPostgresSubscriptionName: cloud-native-postgresql-catalog-subscription
+    parameters: {}
+    replication: {}
+    resources:
+      limitsCPU: '1'
+      limitsMemory: 1Gi
+      requestsCPU: 500m
+      requestsMemory: 1Gi
   topology:
     appDisco:
       enabled: false
@@ -51,36 +89,36 @@ spec:
     iafCartridgeRequirementsName: ''
     netDisco: false
     observers:
-      docker: true
+      docker: false
       taddm: true
       servicenow: true
-      ibmcloud: true
-      alm: true
-      viptela: true
-      contrail: true
-      cienablueplanet: true
+      ibmcloud: false
+      alm: false
+      viptela: false
+      contrail: false
+      cienablueplanet: false
       kubernetes: true
-      bigfixinventory: true
-      junipercso: true
-      dns: true
-      itnm: true
-      ansibleawx: true
-      hpnfvd: true
-      ciscoaci: true
-      azure: true
+      bigfixinventory: false
+      junipercso: false
+      dns: false
+      itnm: false
+      ansibleawx: false
+      hpnfvd: false
+      ciscoaci: false
+      azure: false
       rancher: true
-      newrelic: true
+      newrelic: false
       vmvcenter: true
       rest: true
       appdynamics: true
       jenkins: true
-      zabbix: true
-      bigcloudfabric: true
+      zabbix: false
+      bigcloudfabric: false
       file: true
       googlecloud: true
       dynatrace: true
-      aws: true
-      openstack: true
+      aws: false
+      openstack: false
       vmwarensx: true
     storageClassElasticTopology: {{.Values.spec.storageClass}}
     storageClassFileObserver: {{.Values.spec.storageClass}}
@@ -108,11 +146,17 @@ spec:
     storageClassCouchdb: {{.Values.spec.storageClass}}
     storageSizeZookeeper: 5Gi
     storageSizeCouchdb: 20Gi
+    storageSizePostgresql: 100Gi
+    storageClassPostgresqlWal: {{.Values.spec.storageClass}}
+    storageClassPostgresql: {{.Values.spec.storageClass}}
+    storageSizePostgresqlWal: 100Gi
     storageClassCassandraData: {{.Values.spec.storageClass}}
     storageSizeCassandraData: 50Gi
     storageClassElastic: {{.Values.spec.storageClass}}
     storageClassImpactGUI: {{.Values.spec.storageClass}}
     storageSizeImpactGUI: 5Gi
     storageSizeElastic: 75Gi
+    storageClassMinio: {{.Values.spec.storageClass}}
+    storageSizeMinio: 10Gi
     storageClassNCOBackup: {{.Values.spec.storageClassLargeBlock}}
   deploymentType: {{.Values.spec.eventManager.deploymentType}}
